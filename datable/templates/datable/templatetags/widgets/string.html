@@ -1,0 +1,30 @@
+{% load i18n %}
+
+<input dojoType="dijit.form.TextBox"
+       type="text"
+       value="{{ widget.initialValue_js|default_if_none:"" }}"
+       id="{{widget_id}}"
+       placeholder="{{ widget.placeholder }}"
+       intermediateChanges="true"
+       onChange="datable_changed('{{table.name}}', '{{widget.name}}', this.value);
+       this.focus(true);
+       ">
+</input>
+
+
+<script type="text/javascript">
+    // StringFilter requires
+    dojo.require("dijit.form.TextBox");
+
+    function {{widget_id}}_clear() {
+        dijit.byId('{{widget_id}}').reset();
+        {% if widget.initialValue_js %}
+        {{table.name}}GridFilter['{{widget.name}}']='{{widget.initialValue_js}}';
+        {% else %}
+        delete {{table.name}}GridFilter['{{widget.name}}'];
+        {% endif %}
+    }
+
+    function {{widget_id}}_onload(){
+    }
+</script>

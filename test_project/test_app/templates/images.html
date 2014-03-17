@@ -1,0 +1,18 @@
+{% extends "dojango/base_i18n.html" %}
+
+{% block dojango_content %}
+
+{% load i18n %}
+
+{% load datable_tags %}
+
+<h1>{% trans "Images demo" %}</h1>
+<a href="/">{% trans "<< back" %}</a>
+
+<hr size="1" />
+     {% datable_init %}
+     {% datable_preloader %}
+     {% datable imageTable %}
+
+     <div id="imageTableGridContainer" style="height:450px;"></div>
+{% endblock %}

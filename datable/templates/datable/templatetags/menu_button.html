@@ -1,0 +1,44 @@
+{% load i18n %}
+
+<script type="text/javascript">
+    dojo.require("dijit.form.ComboButton");
+    dojo.require("dijit.Menu");
+    dojo.require("dijit.MenuItem");
+</script>
+
+<div dojoType="dijit.form.ComboButton" style="display:inline;">
+    <span>
+        {% trans "Options" %}
+    </span>
+
+
+    <div dojoType="dijit.Menu" id="{{name}}_saveMenu" toggle="fade" style="display: none;">
+
+        <div dojoType="dijit.MenuItem"
+            iconClass="dijitIconClear"
+            onclick="{{ name }}Grid_clearAllFilters();">
+              {% trans "Clear all" %}
+            </div>
+
+        <div dojoType="dijit.MenuItem"
+            iconClass="dijitIconSave"
+            onclick="datable_exportData({{ name }}GridFilter, '{{ name }}', 'xls')">
+              {% trans "Export as XLS" %}
+            </div>
+
+        <div dojoType="dijit.MenuItem"
+            iconClass="dijitIconSave"
+            onclick="datable_exportData({{ name }}GridFilter, '{{ name }}', 'csv')">
+              {% trans "Export as CSV" %}
+            </div>
+
+        <div dojoType="dijit.MenuItem"
+            iconClass="dijitIconSearch"
+            onclick="datable_refresh_function('{{name}}');">
+              {% trans "Refresh" %}
+            </div>
+
+
+    </div>
+
+</div>

@@ -1,0 +1,34 @@
+{% load i18n %}
+
+<div dojoType="dojo.data.ItemFileReadStore"
+    jsId="s_{{ widget_id }}"
+    url="?{{ table.name }}=widget,{{ widget.name }}"
+    style="display: none;"
+    ></div>
+
+
+<input dojoType="dijit.form.FilteringSelect"
+    value="{{ widget.initialValue_js|default_if_none:"-1"}}"
+    store="s_{{ widget_id }}"
+    searchAttr="label"
+    name="{{ widget_id }}"
+    id="{{ widget_id }}"
+    autocomplete="false"
+    placeholder="{{ widget.placeholder|default_if_none:"" }}"
+    required="false"
+    onChange="datable_changed('{{table.name}}', '{{widget.name}}', this.value);">
+</input>
+
+<script type="text/javascript">
+    // AutocompleteStringwidget
+    dojo.require("dijit.form.FilteringSelect");
+    dojo.require('dojo.data.ItemFileReadStore');
+
+    function {{ widget_id }}_clear() {
+        dijit.byId('{{widget_id}}').reset();
+        delete {{table.name}}GridFilter['{{widget.name}}'];
+    }
+
+    function {{widget_id}}_onload(){
+    }
+</script>

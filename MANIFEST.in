@@ -1,0 +1,2 @@
+recursive-include datable *
+recursive-exclude test_project *

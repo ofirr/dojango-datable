@@ -1,0 +1,59 @@
+<input dojoType="dijit.form.DateTextBox"
+       type="text"
+       id="{{widget_id}}_date"
+       value="{{ widget.initialValue_js|default_if_none:"" }}"
+       required="false"
+       placeholder="{{widget.placeholder|default_if_none:"" }}"
+       onChange="
+
+       {% if widget.constraints %}
+       other = dijit.byId(datable_widget_id('{{ table.name }}', '{{ widget.constraints.name }}') + '_date');
+       value = this.get('value');
+
+       if (value == null)
+            delete other.constraints.{{ widget.constraints.kind }};
+       else
+            other.constraints.{{ widget.constraints.kind }} = value;
+       {% endif %}
+
+       return datable_dateTimeControl_onChange(
+                        '{{table.name}}', '{{widget.name}}',
+                         {{table.name}}GridFilter,
+                         {{table.name}}Refresh);"
+
+       placeholder="{{widget.placeholder}}"
+       />
+
+<input dojoType="dijit.form.TimeTextBox"
+       type="text"
+       id="{{widget_id}}_time"
+       value="{{widget.initialValue_js|default_if_none:""}}"
+       required="false"
+       placeholder="HH:MM"
+       onChange="return datable_dateTimeControl_onChange(
+                        '{{table.name}}', '{{widget.name}}',
+                        {{ table.name }}GridFilter,
+                        {{ table.name }}Refresh);"
+       />
+
+<script type="text/javascript">
+    // DateTimewidget
+    dojo.require("dijit.form.DateTextBox");
+    dojo.require("dijit.form.TimeTextBox");
+
+    function {{widget_id}}_clear(){
+
+        var f = dijit.byId('{{widget_id}}_date');
+        f.reset();
+        delete f.constraints.max;
+        delete f.constraints.min;
+
+        var f = dijit.byId('{{widget_id}}_time');
+        f.reset();
+
+        delete {{table.name}}GridFilter['{{widget.name}}'];
+    }
+
+    function {{widget_id}}_onload(){
+    }
+</script>

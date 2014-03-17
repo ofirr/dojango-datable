@@ -1,0 +1,8 @@
+{% load i18n %}
+
+<button dojoType="dijit.form.Button" type="button">
+    {% trans "Clear all" %}
+    <script type="dojo/method" event="onClick" args="evt">
+        {{name}}Grid_clearAllFilters();
+    </script>
+</button>

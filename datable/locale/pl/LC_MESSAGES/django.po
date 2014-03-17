@@ -1,0 +1,91 @@
+# dojango-datable - polskie tłumaczenie
+# Copyright (C) 2011 FHU KAGAMI
+# This file is distributed under the same license as the dojango-datable package.
+# Michał Pasternak <michal.dtz@gmail.com>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-27 10:25+0100\n"
+"PO-Revision-Date: 2011-12-27 10:26+0100\n"
+"Last-Translator: Michał Pasternak <michal.dtz@gmail.com>\n"
+"Language-Team: polski <>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bits\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: core/serializers.py:69 core/serializers.py:82 core/serializers.py:90
+#: core/serializers.py:98 core/serializers.py:109 tests/test_columns.py:25
+#: tests/test_core.py:181 tests/test_core.py:187 tests/test_core.py:193
+#: tests/test_core.py:199 tests/test_core.py:205
+msgid "[no data]"
+msgstr "[brak danych]"
+
+#: core/serializers.py:101 tests/test_core.py:187
+msgid "yes"
+msgstr "tak"
+
+#: core/serializers.py:114 tests/test_columns.py:26
+#, python-format
+msgid "%.2f sec."
+msgstr "%.2f sek."
+
+#: templates/datable/templatetags/datable_clear_all_button.html:4
+#: templates/datable/templatetags/datable_menu_button.html:20
+msgid "Clear all"
+msgstr "Wyczyść wszystko"
+
+#: templates/datable/templatetags/datable_csv_button.html:3
+#: templates/datable/templatetags/datable_menu_button.html:32
+msgid "Export as CSV"
+msgstr "Eksport do CSV"
+
+#: templates/datable/templatetags/datable_menu_button.html:11
+msgid "Options"
+msgstr "Opcje"
+
+#: templates/datable/templatetags/datable_menu_button.html:26
+#: templates/datable/templatetags/datable_xls_button.html:3
+msgid "Export as XLS"
+msgstr "Eksport do XLS"
+
+#: templates/datable/templatetags/datable_menu_button.html:38
+#: templates/datable/templatetags/datable_refresh_button.html:3
+msgid "Refresh"
+msgstr "Odśwież"
+
+#: tests/test_core.py:205
+#, fuzzy, python-format
+msgid "%i.00 sec."
+msgstr "%.2f sek."
+
+#: tests/test_views.py:314 web/storage.py:90
+msgid "Exported on"
+msgstr "Wyeksportowano"
+
+#: tests/test_views.py:315
+msgid "URL"
+msgstr "URL"
+
+#: web/extra/widgets.py:40
+#, python-format
+msgid "Refresh every %i sec"
+msgstr "Odśwież co %i sek"
+
+#~ msgid "search..."
+#~ msgstr "wyszukaj..."
+
+#~ msgid "Click to display the calendar."
+#~ msgstr "Kliknij aby zobaczyć kalendarz"
+
+#~ msgid "Filters:"
+#~ msgstr "Filtry:"
+
+#~ msgid "from: "
+#~ msgstr "od:"
+
+#~ msgid "to: "
+#~ msgstr "do:"

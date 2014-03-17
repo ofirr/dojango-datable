@@ -1,0 +1,36 @@
+{% extends "dojango/base_i18n.html" %}
+
+{% block dojango_content %}
+
+{% load i18n %}
+
+{% load datable_tags %}
+{% datable_init %}
+{% datable_preloader %}
+
+<h1>{% trans "Authors demo" %}</h1>
+<a href="/">{% trans "<< back" %}</a>
+
+<script type="text/javascript">
+dojo.require("dijit.layout.TabContainer");
+dojo.require("dijit.layout.ContentPane");
+dojo.require("dijit.TitlePane")
+</script>
+
+<hr size="1" />
+
+     {% datable_refresh_button first_table %}
+     {% datable_menu_button first_table %}
+     <hr />
+
+<div dojoType="dijit.TitlePane" title="{% trans "Filters" %}" width="750px;">
+     {% datable_widget first_table author %}
+     {% datable_widget first_table first %}
+</div>
+
+     {% datable first_table %}
+     {% datable_href_on_click first_table %}
+
+     <div id="first_tableGridContainer" style="height:450px;"></div>
+
+{% endblock %}

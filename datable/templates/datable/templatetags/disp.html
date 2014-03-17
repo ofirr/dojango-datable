@@ -1,0 +1,108 @@
+{% load dojango_base %}
+{% load dojango_filters %}
+{% set_dojango_context %}
+
+
+<script type="text/javascript">
+
+    // Values for all filter fields for this Grid
+    var {{name}}GridFilter = new Array();
+
+    // Should we postpone updating the Grid? (freeze/thaw)
+    var {{name}}GridFrozen = false;
+
+    // Timer for DelayedRefresh function
+    var {{name}}GridTimer;
+
+    // Function below clears all filters for the datagrid
+    function {{name}}Grid_clearAllFilters(){
+
+	{{name}}GridFrozen = true;
+
+	{% for widget in widgets%}
+	datable_clear_widget('{{name}}', '{{widget.name}}');
+        {% endfor %}
+
+        {{name}}GridFrozen = false;
+	{{name}}DelayedRefresh();
+    }
+
+    // Refresh function
+    function {{name}}Refresh(){
+        if (!{{name}}GridFrozen) {
+            {{name}}Grid.filter({{name}}GridFilter);
+	    // Alternative refresh function: displays "loading" animated image
+	    // for a while:
+	    // {{name}}Store.close();
+	    // {{name}}Grid.setStore({{name}}Store);
+	    return true;
+        }
+	return false;
+    }
+
+    // Delay the refresh function a bit
+    function {{name}}DelayedRefresh(){
+
+        if (!{{name}}GridFrozen) {
+	    clearTimeout({{name}}GridTimer);
+	    {{name}}Timer = setTimeout({{name}}Refresh, REFRESH_DELAY);
+	}
+
+    }
+
+    // Initial filter values
+    {% for widget in widgets %}
+    {% if widget.initialValue_js %}
+    {{name}}GridFilter['{{ widget.name }}'] = '{{ widget.initialValue_js }}';
+    {% endif %}
+    {% endfor %}
+
+
+    dojo.addOnLoad(function(){
+
+        {% if nosort %}
+        function {{name}}NoSort(inSortInfo){
+
+            ns = [{% for ns in nosort %}{{ns}},{%endfor%}];
+
+            if (ns.indexOf(inSortInfo)>=0 || this._isLoading)
+                return false;
+            return true;
+        }
+        {% endif %}
+
+	{{ name }}Store = new dojox.data.QueryReadStore({
+	    url: '?{{name}}=json',
+	    urlPreventCache: true});
+
+	{{name}}Grid = new dojox.grid.DataGrid({
+	    query: {  },
+	    store: {{name}}Store,
+	    {% if defaultSort %}
+	    sortInfo: {{ defaultSort }},
+	    {% endif %}
+	    autoWidth: true,
+            {% if nosort %}
+            canSort: {{name}}NoSort,
+            {% endif %}
+	    structure: [
+                {% for field in fields %}
+		{ field: "{{field.name}}", 	name: "{{field.label}}",
+                  {% if field.width %}width: "{{field.width}}",{%endif%}
+                  {% if field.formatter %}formatter: datable_{{field.formatter}}Formatter,{%endif%}
+                  editable: {{field.editable}},
+		  },
+    		{% endfor %}
+	    ]
+	}, dojo.place(dojo.create("div"), dojo.byId("{{name}}GridContainer")));
+
+	{{name}}Grid.filter({{name}}GridFilter);
+
+	{% for widget in widgets %}
+	w_{{name}}_{{widget.name}}_onload();
+	{% endfor %}
+
+	{{name}}Grid.startup();
+        {{name}}Grid.resize();
+    });
+</script>

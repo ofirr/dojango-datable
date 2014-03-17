@@ -1,0 +1,31 @@
+{% load dojango_base %}
+{% if not DOJANGO %}
+{% set_dojango_context %}
+{% endif %}
+<style type="text/css">
+#preloader {
+  width:100%; height:100%; margin:0; padding:0;
+  background:#fff
+    url('{{DOJANGO.DOJOX_URL}}/image/resources/images/loading.gif')
+    no-repeat center center;
+    position:absolute;
+    z-index:999;
+}
+</style>
+<div id="preloader"></div>
+
+<script>
+var hideLoader = function(){
+    dojo.fadeOut({
+        node:"preloader",
+        onEnd: function(){
+            dojo.style("preloader", "display", "none");
+        }
+    }).play();
+}
+
+dojo.addOnLoad(function(){
+    dojo.parser.parse();
+    hideLoader();
+});
+</script>

@@ -1,0 +1,7 @@
+{% load i18n %}
+<button dojoType="dijit.form.Button" type="button">
+    {% trans "Export as CSV" %}
+    <script type="dojo/method" event="onClick" args="evt">
+        datable_exportData({{ name }}GridFilter, '{{ name }}', 'csv');
+    </script>
+</button>

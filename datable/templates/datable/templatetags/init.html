@@ -1,0 +1,131 @@
+{% load dojango_base %}
+{% load dojango_filters %}
+{% set_dojango_context %}
+
+<link rel="stylesheet"
+        href="{{ DOJANGO.DOJOX_URL }}/grid/resources/{{ DOJANGO.THEME }}Grid.css"
+        type="text/css" />
+
+<link rel="stylesheet"
+      href="{{ DOJANGO.DOJOX_URL }}/grid/resources/Grid.css" />
+
+<script type="text/javascript">
+   dojo.require("dojox.data.QueryReadStore");
+   dojo.require("dojox.grid.DataGrid");
+   dojo.require("dijit.form.Button");
+
+   // Constants
+   var REFRESH_DELAY = 400;
+
+   // get filter ID
+   function datable_widget_id(gridName, filterName){
+      return "w_" + gridName + "_" + filterName;
+   }
+
+   // get grid filter
+   function datable_grid_filter(gridName) {
+      return window[gridName + 'GridFilter'];
+   }
+
+   // get refresh function
+   function datable_refresh_function(gridName, delayed){
+      name='Refresh';
+      if (delayed==true)
+         name = 'Delayed' + name;
+      return window[gridName + name];
+   }
+
+   // helper for changed fields
+   function datable_changed(gridName, filterName, value, delayed) {
+      datable_grid_filter(gridName)[filterName] = value;
+      datable_refresh_function(gridName, delayed)();
+   }
+
+   // Set filter value
+   function datable_set_value(gridName, filterName, value) {
+      dijit.byId(datable_filter_id(gridName, filterName)).set('value', value);
+   }
+
+   function datable_clear_widget(gridName, widgetName){
+      window[datable_widget_id(gridName, widgetName) + '_clear']();
+   }
+
+   // xls/csv query helper
+   function datable_exportData(gridFilter, gridName, format){
+      url = '?' + gridName + '=' + format;
+
+      for (key in gridFilter) {
+         url += '&' + key + '=';
+         url += gridFilter[key];
+      }
+
+      location.href = url;
+   }
+
+   function datable_dateControl_onChange(control, filterArray, filterName, refreshFunction) {
+
+      if (control.get('value')) {
+         var v = control.get('value');
+
+         filterArray[filterName] = v.getFullYear() + '-' + (v.getMonth() + 1) + '-' + (v.getDate());
+      } else
+         delete filterArray[filterName];
+
+      refreshFunction();
+      control.focus(true);
+   }
+
+   function datable_dateTimeControl_onChange(datableName, filterName, filterArray, refreshFunction) {
+      var commonName = datable_widget_id(datableName, filterName);
+      var controlDate = dijit.byId(commonName + '_date');
+      var controlTime = dijit.byId(commonName + '_time');
+
+      var dv = controlDate.get('value');
+      var tv = controlTime.get('value');
+      var nd = null;
+
+      if (dv != null && tv != null) {
+         nd = new Date(Date.UTC(
+               dv.getFullYear(), dv.getMonth(), dv.getDate(),
+               tv.getHours(), tv.getMinutes(), tv.getSeconds()
+               ));
+      } else {
+         if (dv != null)
+            nd = new Date(Date.UTC(
+                  dv.getFullYear(), dv.getMonth(), dv.getDate(),
+                  0, 0, 0
+                  ));
+         else
+            nd = dv;
+      }
+
+      var current = filterArray[filterName];
+
+      if (current == undefined && nd == null)
+         return ;
+
+      if (current == nd.toISOString())
+         return;
+
+      if (nd)
+         filterArray[filterName] = nd.toISOString();
+      else
+         delete filterArray[filterName];
+
+      refreshFunction();
+   }
+
+   // Formatters
+
+   function datable_imageFormatter(value) {
+      if (value=='') return '-';
+      return '<img width="48" height="36" src="'+value+'"/>';
+   }
+
+   function datable_hrefFormatter(value) {
+
+      v = value.split('\n');
+      return '<a href="'+v[0]+'">'+v[1]+'</a>';
+   }
+
+</script>

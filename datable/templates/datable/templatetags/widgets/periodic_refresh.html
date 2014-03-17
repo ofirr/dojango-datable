@@ -1,0 +1,44 @@
+{% load i18n %}
+
+<button id="{{ widget_id }}"
+       name="{{ widget_id }}"
+       dojoType="dijit.form.ToggleButton"
+       iconClass="dijitCheckBoxIcon"
+       value="true"
+       {% if widget.initialValue %}
+            checked
+       {% endif %}
+       onChange="
+       clearTimeout({{widget_id}}_timer);
+
+       if (this.checked) {
+            {{table.name}}GridFilter['{{widget.name}}'] = this.value;
+            {{widget_id}}_timer_func();
+        } else {
+            delete {{table.name}}GridFilter['{{widget.name}}'];
+            {{table.name}}Refresh();
+        }
+       ">
+       {{ widget.placeholder }}
+</button>
+
+<script type="text/javascript">
+
+    var {{widget_id }}_timer;
+
+    function {{widget_id}}_timer_func(){
+        {{table.name}}Refresh();
+        {{widget_id}}_timer = setTimeout({{widget_id}}_timer_func, {{widget.period}});
+    }
+
+    function {{ widget_id }}_clear() {
+        dijit.byId('{{ widget_id }}').reset();
+        delete {{table.name}}GridFilter['{{ widget.name }}'];
+    }
+
+    function {{widget_id}}_onload(){
+        {% if widget.initialValue %}
+        {{widget_id}}_timer_func();
+        {%endif%}
+    }
+</script>

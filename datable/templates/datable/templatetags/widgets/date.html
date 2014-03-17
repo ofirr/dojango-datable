@@ -1,0 +1,37 @@
+<input dojoType="dijit.form.DateTextBox"
+       type="text"
+       id="{{widget_id}}"
+       value="{{ widget.initialValue_js|default_if_none:"" }}"
+       required="false"
+       onChange="
+
+       {% if widget.constraints %}
+       other = dijit.byId(datable_widget_id('{{ table.name }}', '{{ widget.constraints.name }}'));
+       value = this.get('value');
+
+       if (value == null)
+            delete other.constraints.{{ widget.constraints.kind }};
+       else
+            other.constraints.{{ widget.constraints.kind }} = value;
+       {% endif %}
+
+       return datable_dateControl_onChange(this, {{table.name}}GridFilter, '{{widget.name}}', {{table.name}}Refresh);
+       "
+       placeholder="{{ widget.placeholder|default_if_none:""}}"
+       />
+
+<script type="text/javascript">
+    // DateTimewidget
+    dojo.require("dijit.form.DateTextBox");
+
+    function {{widget_id}}_clear(){
+        var f = dijit.byId('{{widget_id}}');
+        f.reset();
+        delete f.constraints.max;
+        delete f.constraints.min;
+        delete {{table.name}}GridFilter['{{ widget.jsName }}'];
+    }
+
+    function {{widget_id}}_onload(){
+    }
+</script>
