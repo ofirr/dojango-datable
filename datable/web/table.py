@@ -16,9 +16,9 @@ class Table(object):
     widgets = None
     primaryKeySerializer = None
 
-    def __init__(self, name, storage, filename=None):
-
+    def __init__(self, name, storage, filename=None, objectpath=None):
         self.name = name
+        self.objectpath = objectpath
         self.storage = storage
 
         if filename is not None:

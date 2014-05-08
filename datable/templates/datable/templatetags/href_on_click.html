@@ -6,7 +6,7 @@
             function(event) { 
                var selItems = {{name}}Grid.selection.getSelected();
                var id_v = {{name}}Store.getValues(selItems[0], 'pk');
-               location.href = id_v;
+               location.href = "{{ objectpath }}"+id_v;
             }
         );
     });

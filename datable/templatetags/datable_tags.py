@@ -33,23 +33,24 @@ class DatablePreloaderNode(SimpleNode):
 
 
 class BaseDatableNode(template.Node):
-    """Base Datable node - a base class for other Datable nodes.
+    """Base Datable node - a base class for other Datable nodes (single param)
     """
 
     def __init__(self, table_name):
         self.table_name = template.Variable(table_name)
 
-    def render(self, context):
+    def getcontext(self, context):
 
         try:
             table = self.table_name.resolve(context)
         except VariableDoesNotExist:
             err = "Variable %s not found in context. Perhaps you forgot " \
-                  "to pass it to the renderer?" % self.datable_name
+                  "to pass it to the renderer?" % self.table_name
             raise VariableDoesNotExist(err)
 
         opts = dict()
         opts['name'] = self.table_name
+        opts['objectpath'] = table.objectpath
         opts['widgets'] = table.getStorage().getWidgets()
         opts['fields'] = []
 
@@ -89,8 +90,23 @@ class BaseDatableNode(template.Node):
                     d['width'] = str(column.width)
 
             opts['fields'].append(d)
+        return opts
 
-        return get_template(self.templateName).render(template.Context(opts))
+    def render(self, context):
+        return get_template(self.templateName).render(template.Context(self.getcontext(context)))
+
+
+class BaseDatableNodeTwoParams(BaseDatableNode):
+    """Base Datable node - a base class for other Datable nodes (two parameters)
+    """
+    def __init__(self, table_name, extraparam):
+        BaseDatableNode.__init__(self, table_name)
+        self.extraparam = extraparam
+
+    def getcontext(self, context):
+        opts = BaseDatableNode.getcontext(self, context)
+        opts['extraparam'] = self.extraparam
+        return opts
 
 
 class DatableHrefOnClickNode(BaseDatableNode):
@@ -101,6 +117,17 @@ class DatableHrefOnClickNode(BaseDatableNode):
     to make your datable support clicking on the rows.
     """
     templateName = templatePath("href_on_click")
+
+
+class DatableDialogOnClickNode(BaseDatableNodeTwoParams):
+    """Include this node as
+
+    {% datable_dialog_on_click my_datable function_name%}
+
+    to make your datable support dialogs by clicking on the rows.
+    function_name will be called as function_name(row_pk)
+    """
+    templateName = templatePath("dialog_on_click")
 
 
 class DatableNode(BaseDatableNode):
@@ -219,9 +246,23 @@ def datable_helper(parser, token, fun):
         raise template.TemplateSyntaxError, err
     return fun(datable_name)
 
+##ofir
+def alt_datable_helper(parser, token, fun):
+    """This function helps with registering a double-parameter tag.
+    """
+
+    try:
+        tag_name, datable_name, param = token.split_contents()
+    except ValueError:
+        err = "%r tag requires two arguments" % token.contents.split()[0]
+        raise template.TemplateSyntaxError, err
+    return fun(datable_name, param)
+##end ofir
+
 for tagname, node in [
     ('datable', DatableNode),
     ('datable_href_on_click', DatableHrefOnClickNode),
+
     ('datable_refresh_button', DatableRefreshButtonNode),
     ('datable_menu_button', DatableMenuButtonNode),
     ('datable_clear_all_filters_button', DatableClearAllFiltersButtonNode),
@@ -229,3 +270,8 @@ for tagname, node in [
     ('datable_csv_button', DatableCSVButtonNode)]:
     register.tag(tagname, lambda parser, token, node=node:
         datable_helper(parser, token, node))
+
+for tagname, node in [
+    ('datable_dialog_on_click', DatableDialogOnClickNode)]:
+    register.tag(tagname, lambda parser, token, node=node:
+    alt_datable_helper(parser, token, node))

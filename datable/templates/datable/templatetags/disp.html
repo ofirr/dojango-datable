@@ -33,8 +33,8 @@
             {{name}}Grid.filter({{name}}GridFilter);
 	    // Alternative refresh function: displays "loading" animated image
 	    // for a while:
-	    // {{name}}Store.close();
-	    // {{name}}Grid.setStore({{name}}Store);
+	    {{name}}Store.close();
+	    {{name}}Grid.setStore({{name}}Store);
 	    return true;
         }
 	return false;
