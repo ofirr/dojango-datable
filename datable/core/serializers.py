@@ -3,8 +3,7 @@
 from django.core.urlresolvers import reverse
 
 from django.utils.translation import ugettext as _
-from django.utils.datastructures import SortedDict
-
+from collections import OrderedDict
 from datable.core import formats
 
 class UnicodeSerializer:
@@ -198,7 +197,7 @@ class QuerySetSerializer:
                     )
                 )
             )
-        return SortedDict(row)
+        return OrderedDict(row)
 
     def serialize(self, querySet):
         for model in querySet:
