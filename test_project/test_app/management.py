@@ -27,7 +27,7 @@ def demo_reader(name):
         try:
             yield line.decode('utf-8').strip()
         except:
-            print line
+            print(line)
 
 
 @transaction.commit_on_success

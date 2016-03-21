@@ -19,7 +19,7 @@ from datable.tests.test_core import FakeColumn
 from datable.tests.test_core import fakeQuerySetNoIDs
 from datetime import datetime
 from datable.core import formats
-from cStringIO import StringIO
+from io import StringIO
 
 # # # ## # # ## # # ## # # ## # # ## # # ## # # ## # # ## # # ## # # #
 

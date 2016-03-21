@@ -56,7 +56,7 @@ class TestPageWithDatableMixin:
         line = value.split('\n')[-1]
         try:
             json.loads(line)
-        except Exception, err:
+        except Exception as err:
             self.bug(name, err, kw, response)
 
     def jsonTest(self, **kw):
@@ -66,20 +66,20 @@ class TestPageWithDatableMixin:
     def xlsTest(self, **kw):
         try:
             response = self.getResponse("xls", **kw)
-        except Exception, err:
+        except Exception as err:
             self.bug("xls-rendering", err, kw, None)
         try:
             xlrd.open_workbook(
                 file_contents=response.content
                 )
-        except Exception, err:
+        except Exception as err:
             self.bug("xls", err, kw, response)
 
     def csvTest(self, **kw):
         response = self.getResponse("csv", **kw)
         try:
-            csv.reader(response.content).next()
-        except Exception, err:
+            next(csv.reader(response.content))
+        except Exception as err:
             self.bug("csv", err, kw, response)
 
     def widgetTest(self, **kw):

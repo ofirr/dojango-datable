@@ -4,7 +4,7 @@ from dojango.util import to_dojo_data
 from datable.core import formats
 from datable.core.serializers import QuerySetSerializer
 
-from cStringIO import StringIO
+from io import StringIO
 
 import xlwt
 import csv
@@ -73,11 +73,11 @@ class CSVQuerySetSerializer(QuerySetSerializer):
         for row in exportDescription:
             csv_writer.writerow(row)
 
-        csv_writer.writerow([unicode(v).encode('utf8') for v in header])
+        csv_writer.writerow([str(v).encode('utf8') for v in header])
 
         for elem in QuerySetSerializer.serialize(self, querySet):
             csv_writer.writerow(
-                [unicode(v).encode('utf8') for v in elem.values()])
+                [str(v).encode('utf8') for v in list(elem.values())])
 
         a.seek(0)
         return a

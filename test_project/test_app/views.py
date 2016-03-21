@@ -54,7 +54,7 @@ class AuthorsSerializer(UnicodeSerializer):
 
     def serialize(self, model, output_format=None):
         return ", ".join([
-            unicode(author)
+            str(author)
             for author in model.authors.all().order_by('bookauthor__sort_order')
             ])
 

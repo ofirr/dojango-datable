@@ -39,9 +39,9 @@ class TestSimpleFilter(TestCase):
 
 class TestTypedFilter(TestCase):
     def test_typed(self):
-        f = core.TypedFilter('foo', allowedTypes=[unicode, str])
+        f = core.TypedFilter('foo', allowedTypes=[str, str])
         self.assertEquals('foo', f.clean('foo'))
-        self.assertEquals(u'foo', f.clean(u'foo'))
+        self.assertEquals('foo', f.clean('foo'))
         self.assertRaises(TypeError, f.clean, 5)
 
 # ##########################################################
@@ -65,7 +65,7 @@ class TestStringValueConverter(TestCase):
 
         self.assertEquals(j.valueFromJS({'foo':5}), 5)
 
-        self.assertEquals(j.valueToJS(5), unicode('5'))
+        self.assertEquals(j.valueToJS(5), str('5'))
         self.assertEquals(j.valueToJS(None), None)
 
 
@@ -143,10 +143,10 @@ class TestFieldSerializer(TestCase):
     def test_modelSerializer(self):
         class Foo:
             def __unicode__(self):
-                return u'bar'
+                return 'bar'
 
         s = core.serializers.UnicodeSerializer()
-        self.assertEquals(s.serialize(Foo()), u'bar')
+        self.assertEquals(s.serialize(Foo()), 'bar')
 
     def test_formatSerializer(self):
         class Foo:

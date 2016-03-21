@@ -8,7 +8,7 @@ from datable.core import formats
 
 class UnicodeSerializer:
     def serialize(self, model, output_format=None):
-        return unicode(model)
+        return str(model)
 
 
 class DictProxy:
@@ -65,7 +65,7 @@ class StringSerializer(FieldSerializer):
         if value is None:
             return _('[no data]')
 
-        return unicode(value)
+        return str(value)
 
 
 class PrimaryKeySerializer(StringSerializer):

@@ -12,7 +12,7 @@ except ImportError:
         "settings module.\n" % __file__)
     sys.exit(1)
 
-import settings
+from . import settings
 
 if __name__ == "__main__":
     execute_manager(settings)

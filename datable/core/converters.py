@@ -36,7 +36,7 @@ class StringValueConverter(JSValueConverter):
         return safe_value
 
     def convertToJS(self, safe_value):
-        return unicode(safe_value)
+        return str(safe_value)
 
 
 class DojoComboValueConverter(StringValueConverter):

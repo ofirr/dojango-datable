@@ -5,7 +5,7 @@ from django.utils.translation import ugettext as _
 
 from datable.core import formats
 from datetime import datetime
-from urllib import urlencode
+from urllib.parse import urlencode
 
 class Table(object):
     """A table, which may be presented as JSON or XLS or CSV.
@@ -54,7 +54,7 @@ class Table(object):
         return self.storage.filterAndSort(requestDict, sortColumn)
 
     def getExportFilename(self, output_format):
-        fn = u"%s.%s" % (self.filename, formats.getExtension(output_format))
+        fn = "%s.%s" % (self.filename, formats.getExtension(output_format))
         fn = datetime.now().strftime(fn.encode('utf-8')).replace(" ", "_")
         return urlencode([('filename', fn)])
 
@@ -109,7 +109,7 @@ class Table(object):
             if not other_storage:
                 raise Http404
 
-            valueDict = dict(requestDict.items())
+            valueDict = dict(list(requestDict.items()))
             valueDict.pop(self.name)
             if 'sort' in valueDict:
                 valueDict.pop('sort')

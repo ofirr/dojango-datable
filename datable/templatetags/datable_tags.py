@@ -220,7 +220,7 @@ def datable_widget(parser, token):
         tag_name, datable_name, filter_name = token.split_contents()
     except ValueError:
         err = "%r tag requires two arguments" % token.contents.split()[0]
-        raise template.TemplateSyntaxError, err
+        raise template.TemplateSyntaxError(err)
     return FilterNode(datable_name, filter_name)
 
 register.tag('datable_widget', datable_widget)
@@ -243,7 +243,7 @@ def datable_helper(parser, token, fun):
         tag_name, datable_name = token.split_contents()
     except ValueError:
         err = "%r tag requires a single argument" % token.contents.split()[0]
-        raise template.TemplateSyntaxError, err
+        raise template.TemplateSyntaxError(err)
     return fun(datable_name)
 
 ##ofir
@@ -255,7 +255,7 @@ def alt_datable_helper(parser, token, fun):
         tag_name, datable_name, param = token.split_contents()
     except ValueError:
         err = "%r tag requires two arguments" % token.contents.split()[0]
-        raise template.TemplateSyntaxError, err
+        raise template.TemplateSyntaxError(err)
     return fun(datable_name, param)
 ##end ofir
 

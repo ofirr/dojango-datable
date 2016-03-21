@@ -23,7 +23,7 @@ class TestColumn(TestCase):
             (123, '123'),
             (123.123, '123.123'),
             ('foo', 'foo'),
-            (u'foo', 'foo')
+            ('foo', 'foo')
             ]:
             m = MockRow()
             m.mock = data

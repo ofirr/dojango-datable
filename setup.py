@@ -9,7 +9,7 @@ import os
 setup(
     name='dojango-datable',
     version=version,
-    author=u'Michał Pasternak - FHU Kagami',
+    author='Michał Pasternak - FHU Kagami',
     author_email='michal.dtz@gmail.com',
     url='http://code.google.com/p/dojango-datable/',
     description='Dynamic Dojo DataGrids for Django',

@@ -90,7 +90,7 @@ class TestTable(TestCase):
         for element in users_datable.serialize(
             User.objects.all().order_by('username')[:2]
             ):
-            k = element.keys()
+            k = list(element.keys())
             self.assertEquals(
                 k,
                 ['username', 'first_name', 'last_name', 'foo'])
@@ -176,7 +176,7 @@ class TestTable(TestCase):
 
         self.assertEquals(
             "filename=%C5%82%C3%B3d%C5%BA_jest.xls",
-            d.getExportFileName(output=formats.XLS, name=u"łódź jest"))
+            d.getExportFileName(output=formats.XLS, name="łódź jest"))
 
     def test_serializeToJSON(self):
         class FakeRequest:

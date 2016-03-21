@@ -78,7 +78,7 @@ class IntegerFilter(TypedFilter):
     allowedTypes = [int]
 
 class StringFilter(TypedFilter):
-    allowedTypes = [unicode, str]
+    allowedTypes = [str, str]
 
 
 class DateTimeFilter(TypedFilter):

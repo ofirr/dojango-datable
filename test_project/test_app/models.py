@@ -13,7 +13,7 @@ class Author(models.Model):
     last = models.CharField(max_length=255)
 
     def __unicode__(self):
-        return u"%s %s" % (self.last, self.first)
+        return "%s %s" % (self.last, self.first)
 
 
 class Book(models.Model):
